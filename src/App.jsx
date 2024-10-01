@@ -1,30 +1,37 @@
 import {useEffect, useState} from 'react';
-import {FaMicroblog, FaReact} from "react-icons/fa";
-import { CopyOutlined,XOutlined,DeleteOutlined,SettingOutlined ,GithubOutlined } from '@ant-design/icons';
+import {FaMicroblog, FaReact, FaTelegram} from "react-icons/fa";
+import {CopyOutlined, DeleteOutlined, GithubOutlined, SettingOutlined, XOutlined} from '@ant-design/icons';
 import {
-    Button, Card,
-    Collapse, ConfigProvider, Descriptions,
-    Divider,
+    Alert,
+    Avatar,
+    Button,
+    Card,
+    Collapse,
+    ConfigProvider,
+    Descriptions,
     Drawer,
     Flex,
+    FloatButton,
     Input,
-    Layout, message,
+    Layout,
+    List,
+    message,
+    notification,
     Popconfirm,
-    Popover,
+    Radio,
     Select,
     Space,
-    Radio,
-    Tooltip, Timeline, List, Avatar, FloatButton, Alert
+    theme,
+    Timeline,
+    Tooltip
 } from 'antd';
-import {notification} from "antd";
-import { theme } from 'antd';
-const { defaultAlgorithm, darkAlgorithm } = theme;
-import viteLogo from '/icon.ico'
 import './App.css'
 import "./assets/react.svg"
 import './Theme.css'
 import 'normalize.css/normalize.css'
 import Meta from "antd/es/card/Meta";
+
+const { defaultAlgorithm, darkAlgorithm } = theme;
 let XLValue = "线路1"
 let url_path = ''
 let result_path = ''
@@ -54,6 +61,13 @@ let doneTime=[//完成进度时间线
         color: 'green',
     },
 ]
+let update_data=[
+    '支持保存用户的Url和线路',
+    '美化UI',
+    '优化使用体验',
+    '同时 也带来了更多的Bug',
+];
+const hitokoto_api='https://v1.hitokoto.cn/?c=f'
 const urls = [
     "https://jx.xmflv.com/?url=",
     "https://cp.987654321.icu/jiexi.php?url=",
@@ -150,6 +164,23 @@ function App() {
         return 1
     }
     const AboutZZCard =() =>{
+        function get_github() {
+            window.open('https://github.com/xin1201946')
+        }
+
+        function get_Twitter() {
+            window.open('https://x.com/can_feng?t=tr7Cmvcj3sV_fUQaRw5oPA&s=09')
+        }
+
+        function get_blog() {
+            window.open('https://www.talk.1201946.xyz/?i=1')
+        }
+        function get_telegram() {
+            window.open('https://t.me/canfengs')
+        }
+
+
+
         return(
             <Card
                 style={{ width: 270 }}
@@ -164,18 +195,32 @@ function App() {
                     <Meta
                         avatar={<Avatar src="https://q.qlogo.cn/headimg_dl?dst_uin=1143922499&spec=640&img_type=jpg" />}
                         title="林间追风"
-                        description=""
+                        description="我们，在路上，勿忘初心。找寻最初的梦想和微弱的希望。"
                     />
                     <Flex align="center" justify="space-evenly">
-                        <Button color="primary" variant="text" icon={<GithubOutlined/>}></Button>
-                        <Button color="primary" variant="text" icon={<XOutlined/>}></Button>
-                        <Button color="primary" variant="text" icon={<FaMicroblog />}></Button>
+                        <Button color="primary" onClick={get_github} variant="text" icon={<GithubOutlined/>}></Button>
+                        <Button color="primary" onClick={get_Twitter} variant="text" icon={<XOutlined/>}></Button>
+                        <Button color="primary" onClick={get_blog} variant="text" icon={<FaMicroblog />}></Button>
+                        <Button color="primary" onClick={get_telegram} variant="text" icon={<FaTelegram  />}></Button>
                     </Flex>
                 </Space>
             </Card>
         )
     }
-
+    const Hitokoto_text =() => {
+        fetch(hitokoto_api)
+            .then(response => response.json())
+            .then(data => {
+                const hitokoto = document.querySelector('#hitokoto_text')
+                hitokoto.innerText = data.hitokoto
+            })
+            .catch(console.error)
+        return (
+            <p id="hitokoto_text" style={{color:"gray"}}>
+                :D 获取中...
+            </p>
+        )
+    }
     const ToastView = () => {
         const [open, setOpen] = useState(false);
 
@@ -254,7 +299,7 @@ function App() {
             <>
                 <FloatButton icon={<SettingOutlined/>} onClick={showDrawer}/>
 
-                <Drawer title="设置" onClose={onClose} open={open}>
+                <Drawer title="设置" onClose={onClose} open={open} footer={<Hitokoto_text/>}>
                     <Collapse
                         accordion
                         items={[
@@ -325,6 +370,21 @@ function App() {
                             },
                             {
                                 key: '5',
+                                label: '更新日志',
+                                children: <Flex vertical>
+                                    <Space direction="vertical">
+                                        <List
+                                            size="small"
+                                            header={<div>更新日志</div>}
+                                            bordered
+                                            dataSource={update_data}
+                                            renderItem={(item) => <List.Item>{item}</List.Item>}
+                                        />
+                                    </Space>
+                                </Flex>
+                            },
+                            {
+                                key: '6',
                                 label: '关于',
                                 children: <Flex vertical>
                                     <Space direction="vertical">
