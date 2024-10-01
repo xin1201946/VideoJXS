@@ -1,0 +1,7 @@
+#HeaderText{
+    color: transparent;
+    font-weight:bold;
+    background-image: linear-gradient(to right, #42D292, #5E8EEB); //向下线性渐变
+    background-clip:text;
+    -webkit-background-clip: text;       //背景裁剪
+}
