@@ -13,7 +13,8 @@
     "start": "electron-forge start",
     "pack": "electron-packager . --overwrite",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "netlifybuild": "netlify build"
   },
   "dependencies": {
     "antd": "^5.21.1",

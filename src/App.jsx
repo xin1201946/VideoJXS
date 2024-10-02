@@ -30,7 +30,31 @@ import "./assets/react.svg"
 import './Theme.css'
 import 'normalize.css/normalize.css'
 import Meta from "antd/es/card/Meta";
-
+console.log(navigator.userAgent);
+var os = function (){
+    var ua = navigator.userAgent,
+        isWindowsPhone = /(?:Windows Phone)/.test(ua),
+        isSymbian = /(?:SymbianOS)/.test(ua) || isWindowsPhone,
+        isAndroid = /(?:Android)/.test(ua),
+        isFireFox = /(?:Firefox)/.test(ua),
+        isChrome = /(?:Chrome|CriOS)/.test(ua),
+        isTablet = /(?:iPad|PlayBook)/.test(ua) || (isAndroid && !/(?:Mobile)/.test(ua)) || (isFireFox && /(?:Tablet)/.test(ua)),
+        isPhone = /(?:iPhone)/.test(ua) && !isTablet,
+        isPc = !isPhone && !isAndroid && !isSymbian;
+    return {
+        isTablet: isTablet,
+        isPhone: isPhone,
+        isAndroid: isAndroid,
+        isPc: isPc
+    };
+}();
+if (os.isAndroid || os.isPhone) {
+    window.location.href='https://mobile.video.1201946.xyz/';
+} else if (os.isTablet) {
+    console.log("平板")
+} else if(os.isPc) {
+    console.log("电脑")
+}
 const { defaultAlgorithm, darkAlgorithm } = theme;
 let XLValue = "线路1"
 let url_path = ''
@@ -72,7 +96,8 @@ const urls = [
     "https://jx.xmflv.com/?url=",
     "https://cp.987654321.icu/jiexi.php?url=",
     "http://jiexi.vipno.cn/?v=",
-    "https://jx.wujiyan.cc/?url=",
+    'https://jx.ppflv.com/?url=',
+    'https://im1907.top/?jx=',
 ];
 let Cunchuitems =[
     {
@@ -91,6 +116,11 @@ function App() {
     const [messageApi, ToasttextHolder] = message.useMessage();
     const [isDarkMode, setIsDarkMode] = useState(false);
     const iframeA=document.createElement('myIframe');
+    messageApi.open(
+        {
+            content:"线路5支持搜索文本啦~",
+        }
+    )
     const autoRsize = () => {
         var baseWidth = 1920;
         var zoomValue = window.innerWidth / baseWidth;
@@ -116,16 +146,15 @@ function App() {
     };
     const cancalDebounce = debounce(autoRsize, 500);
 
-    function VideoPlayer(){
-        return (
-            <iframe width="0" height="0" src={result_path}
-                    id={'myIframe'}
-                    title="VideoPlayer"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
-        )
-    }
+        function VideoPlayer(){
+            return (
+                <iframe width="0" height="0" src={result_path}
+                        id={'myIframe'}
+                        title="VideoPlayer"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+            )
+        }
 
     function XLselect() {
         useEffect(() => {
@@ -148,7 +177,7 @@ function App() {
     }
 
     function loadata() {
-        let cache,cache1,themecache;
+        let cache,cache1;
         cache = localStorage.getItem('XL')
         cache1=localStorage.getItem('urlPath')
         XLValue = cache
@@ -159,7 +188,11 @@ function App() {
         document.getElementById('XLSelect').value = XLValue
 
         urls.forEach((url, index) => {
-            urlDict[`线路${index + 1}`] = url;
+            if (index === 4){
+                urlDict[`线路${index + 1} 可搜影片名`] = url;
+            }else{
+                urlDict[`线路${index + 1}`] = url;
+            }
         });
         return 1
     }
@@ -413,6 +446,7 @@ function App() {
             console.log(result_path);
             localStorage.setItem('urlPath',url_path)
             const iframe = document.getElementById('myIframe');
+
             iframe.style.width = (window.innerWidth*0.5) + 'px';
             iframe.style.height = (window.innerHeight*0.5) + 'px';
             iframe.src = result_path;
