@@ -183,11 +183,7 @@ function App() {
         document.getElementById('XLSelect').value = XLValue
 
         urls.forEach((url, index) => {
-            if (index === 4){
-                urlDict[`线路${index + 1} 可搜影片名`] = url;
-            }else{
                 urlDict[`线路${index + 1}`] = url;
-            }
         });
         return 1
     }
