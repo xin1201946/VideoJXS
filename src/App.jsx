@@ -37,7 +37,6 @@ var os = function (){
         isSymbian = /(?:SymbianOS)/.test(ua) || isWindowsPhone,
         isAndroid = /(?:Android)/.test(ua),
         isFireFox = /(?:Firefox)/.test(ua),
-        isChrome = /(?:Chrome|CriOS)/.test(ua),
         isTablet = /(?:iPad|PlayBook)/.test(ua) || (isAndroid && !/(?:Mobile)/.test(ua)) || (isFireFox && /(?:Tablet)/.test(ua)),
         isPhone = /(?:iPhone)/.test(ua) && !isTablet,
         isPc = !isPhone && !isAndroid && !isSymbian;
@@ -50,10 +49,6 @@ var os = function (){
 }();
 if (os.isAndroid || os.isPhone) {
     window.location.href='https://mobile.video.1201946.xyz/';
-} else if (os.isTablet) {
-    console.log("平板")
-} else if(os.isPc) {
-    console.log("电脑")
 }
 const { defaultAlgorithm, darkAlgorithm } = theme;
 let XLValue = "线路1"
